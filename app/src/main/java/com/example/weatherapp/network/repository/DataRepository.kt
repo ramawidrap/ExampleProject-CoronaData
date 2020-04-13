@@ -15,10 +15,10 @@ import retrofit2.Retrofit
 import javax.inject.Inject
 
 class DataRepository @Inject constructor(val dataService: DataService) {
-    val listData = mutableListOf<Data>()
+    var listData = mutableListOf<Data>()
     val listDataOfMutable = MutableLiveData<List<Data>>()
     val errorMessage = MutableLiveData<Throwable>()
-
+    var listDataFilter = mutableListOf<Data>()
     val compositeDisposable = CompositeDisposable()
 
     init {
@@ -32,19 +32,16 @@ class DataRepository @Inject constructor(val dataService: DataService) {
         }.subscribeWith(object: DisposableObserver<DataResponse>(){
             override fun onComplete() {
                 listDataOfMutable.postValue(listData)
-                Log.i("getData","Complete")
             }
 
 
             override fun onError(e: Throwable) {
                 errorMessage.postValue(e)
-                Log.i("getData","${e.message}")
 
             }
 
             override fun onNext(t: DataResponse) {
                 listData.add(t.data)
-                Log.i("getData","Recieve Data")
 
             }
 
@@ -53,6 +50,12 @@ class DataRepository @Inject constructor(val dataService: DataService) {
 
     fun get() : MutableLiveData<List<Data>> {
         return listDataOfMutable
+    }
+
+    fun filter(query : CharSequence) {
+        listDataFilter = listData
+        listDataFilter = listDataFilter.filter { it.provinsi.contains(query,true )}.toMutableList()
+        listDataOfMutable.postValue(listDataFilter)
     }
 
     fun clear() {

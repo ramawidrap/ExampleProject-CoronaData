@@ -26,4 +26,8 @@ class DataViewModel @Inject constructor(val repo : DataRepository) : ViewModel()
         repo.clear()
     }
 
+    fun filter(query : CharSequence) {
+        repo.filter(query)
+    }
+
 }
