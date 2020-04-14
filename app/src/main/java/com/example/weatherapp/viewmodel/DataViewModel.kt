@@ -15,6 +15,7 @@ class DataViewModel @Inject constructor(val repo : DataRepository) : ViewModel()
 
 
     fun getData() : LiveData<List<Data>> {
+        Log.i("destroy","live data")
         return repo.get()
     }
 

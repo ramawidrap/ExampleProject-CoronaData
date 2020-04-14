@@ -9,9 +9,9 @@ import android.util.Log
 import android.widget.Toast
 import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
 
-class HandleNetwork(private val context: Context) : Interceptor {
-
+class HandleNetwork (private val context: Context) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         Log.i("getData","cek internet ${isInternetAvailable()}")

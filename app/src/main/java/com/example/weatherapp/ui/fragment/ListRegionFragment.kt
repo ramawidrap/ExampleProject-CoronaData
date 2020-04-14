@@ -1,33 +1,29 @@
-package com.example.weatherapp
+package com.example.weatherapp.ui.fragment
 
 import android.annotation.SuppressLint
-import android.app.SearchManager
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.SearchView
 import android.widget.Toast
-import android.widget.Toolbar
-import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.weatherapp.App
+import com.example.weatherapp.R
 import com.example.weatherapp.adapter.DataAdapter
+import com.example.weatherapp.di.DaggerViewModelComponent
 import com.example.weatherapp.model.Data
 import com.example.weatherapp.viewmodel.DataViewModel
-import com.example.weatherapp.viewmodel.DataViewModelFactory
 import com.jakewharton.rxbinding3.widget.SearchViewQueryTextEvent
 import com.jakewharton.rxbinding3.widget.queryTextChangeEvents
-import com.jakewharton.rxbinding3.widget.queryTextChanges
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableObserver
-import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list_region.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Named
 
 
 class ListRegionFragment : Fragment() {
@@ -64,9 +60,10 @@ class ListRegionFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        App.app.getApplicationComponent().inject(this)
+        DaggerViewModelComponent.builder().appComponent(App.app.getApplicationComponent()).build().inject(this)
         viewModel = ViewModelProvider(this,dataViewModelFactory).get(DataViewModel::class.java)
         viewModel.getData().observe(this.viewLifecycleOwner, Observer<List<Data>>{
+            Log.i("destroy","Destroyed")
             mutableListData.clear()
             mutableListData.addAll(it)
             if(initUI){
@@ -95,7 +92,7 @@ class ListRegionFragment : Fragment() {
 
     companion object {
 
-        fun newInstance() : ListRegionFragment{
+        fun newInstance() : ListRegionFragment {
             return ListRegionFragment()
         }
     }

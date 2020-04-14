@@ -23,10 +23,12 @@ class DataRepository @Inject constructor(val dataService: DataService) {
 
     init {
         getAllData()
+        Log.i("destroy","init repo")
+
     }
 
     fun getAllData() {
-
+        Log.i("destroy","get all data")
         compositeDisposable.add(dataService.getData().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).flatMap {
             Observable.fromIterable(it)
         }.subscribeWith(object: DisposableObserver<DataResponse>(){

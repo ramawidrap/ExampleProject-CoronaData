@@ -76,6 +76,7 @@ dependencies {
     implementation 'com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:3.1.0'
     implementation 'com.jakewharton.rxbinding3:rxbinding-viewpager:3.1.0'
     implementation 'com.jakewharton.rxbinding3:rxbinding-viewpager2:3.1.0'
+    implementation 'com.squareup.retrofit2:converter-simplexml:2.3.0'
 
 
 }
